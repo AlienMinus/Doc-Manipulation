@@ -1,5 +1,0 @@
-Flask
-pdf2docx
-docx2pdf
-waitress
-opencv-python-headless
