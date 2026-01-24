@@ -3,4 +3,4 @@ python-docx
 requests
 waitress
 pdf2docx
-docx2pdf
+# docx2pdf

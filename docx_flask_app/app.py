@@ -10,7 +10,7 @@ from docx import Document
 from docx.shared import Inches
 from docx.oxml.ns import qn
 from pdf2docx import Converter
-from docx2pdf import convert as convert_to_pdf
+# from docx2pdf import convert as convert_to_pdf
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key_for_demo_purposes'
@@ -355,39 +355,40 @@ def api_pdf_to_docx():
 
 @app.route('/api/docx-to-pdf', methods=['POST'])
 def api_docx_to_pdf():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file part'}), 400
-    file = request.files['file']
-    if file and file.filename.endswith('.docx'):
-        try:
-            # Create temp files
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_docx:
-                file.save(tmp_docx.name)
-                tmp_docx_path = tmp_docx.name
+    # if 'file' not in request.files:
+    #     return jsonify({'error': 'No file part'}), 400
+    # file = request.files['file']
+    # if file and file.filename.endswith('.docx'):
+    #     try:
+    #         # Create temp files
+    #         with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_docx:
+    #             file.save(tmp_docx.name)
+    #             tmp_docx_path = tmp_docx.name
             
-            tmp_pdf_path = tmp_docx_path.replace('.docx', '.pdf')
+    #         tmp_pdf_path = tmp_docx_path.replace('.docx', '.pdf')
             
-            # Convert
-            convert_to_pdf(tmp_docx_path, tmp_pdf_path)
+    #         # Convert
+    #         convert_to_pdf(tmp_docx_path, tmp_pdf_path)
             
-            # Read into memory
-            with open(tmp_pdf_path, 'rb') as f:
-                output_stream = BytesIO(f.read())
+    #         # Read into memory
+    #         with open(tmp_pdf_path, 'rb') as f:
+    #             output_stream = BytesIO(f.read())
                 
-            # Cleanup
-            os.remove(tmp_docx_path)
-            os.remove(tmp_pdf_path)
+    #         # Cleanup
+    #         os.remove(tmp_docx_path)
+    #         os.remove(tmp_pdf_path)
             
-            output_stream.seek(0)
-            return send_file(
-                output_stream,
-                as_attachment=True,
-                download_name=f"{os.path.splitext(file.filename)[0]}.pdf",
-                mimetype='application/pdf'
-            )
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
-    return jsonify({'error': 'Invalid file format'}), 400
+    #         output_stream.seek(0)
+    #         return send_file(
+    #             output_stream,
+    #             as_attachment=True,
+    #             download_name=f"{os.path.splitext(file.filename)[0]}.pdf",
+    #             mimetype='application/pdf'
+    #         )
+    #     except Exception as e:
+    #         return jsonify({'error': str(e)}), 500
+    # return jsonify({'error': 'Invalid file format'}), 400
+    return jsonify({'error': 'PDF conversion is disabled in this deployment due to serverless size limits.'}), 400
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
