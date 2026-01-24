@@ -1,0 +1,5 @@
+services:
+  - type: web
+    name: doc-converter
+    env: docker
+    plan: free
