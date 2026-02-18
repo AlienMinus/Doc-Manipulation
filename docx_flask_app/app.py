@@ -9,9 +9,12 @@ from flask import Flask, render_template, request, send_file, flash, jsonify
 from docx import Document
 from docx.shared import Inches
 from docx.oxml.ns import qn
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key_for_demo_purposes'
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 def replace_text_in_doc(doc, search_text, replace_text):
     """
